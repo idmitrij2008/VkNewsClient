@@ -1,5 +1,6 @@
 package com.sumin.vknewsclient.ui
 
+import android.util.Log
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -13,7 +14,8 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun MainScreen() {
     val scope = rememberCoroutineScope()
-    val snackBarHostState = SnackbarHostState()
+    val snackBarHostState = remember { SnackbarHostState() }
+    Log.d("MainScreen", "${snackBarHostState.currentSnackbarData}")
     val fabIsVisible = remember { mutableStateOf(true) }
 
     Scaffold(
