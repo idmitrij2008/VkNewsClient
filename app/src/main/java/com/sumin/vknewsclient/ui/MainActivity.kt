@@ -1,9 +1,8 @@
-package com.sumin.vknewsclient
+package com.sumin.vknewsclient.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.sumin.vknewsclient.ui.MainScreen
 import com.sumin.vknewsclient.ui.theme.VkNewsClientTheme
 
 class MainActivity : ComponentActivity() {
