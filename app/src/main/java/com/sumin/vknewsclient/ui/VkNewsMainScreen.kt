@@ -3,6 +3,7 @@ package com.sumin.vknewsclient.ui
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -11,11 +12,9 @@ import androidx.compose.ui.unit.dp
 import com.sumin.vknewsclient.domain.FeedPost
 
 @Composable
-internal fun MainScreen() {
-    val feedPost = remember {
-        mutableStateOf(FeedPost())
-    }
-
+internal fun MainScreen(
+    viewModel: MainViewModel
+) {
     Scaffold(
         bottomBar = {
             BottomNavigation {
@@ -47,24 +46,15 @@ internal fun MainScreen() {
             }
         },
     ) {
+        val feedPost = viewModel.feedPost.observeAsState(FeedPost())
+
         PostCard(
             modifier = Modifier.padding(8.dp),
             feedPost = feedPost.value,
-            onStatisticItemClickListener = { newItem ->
-                val oldStatistics = feedPost.value.statistics
-
-                val newStatistics = oldStatistics.toMutableList().apply {
-                    replaceAll { oldItem ->
-                        if (oldItem.type == newItem.type) {
-                            oldItem.copy(count = oldItem.count + 1)
-                        } else {
-                            oldItem
-                        }
-                    }
-                }
-
-                feedPost.value = feedPost.value.copy(statistics = newStatistics)
-            }
+            onViewsClickListener = viewModel::updateCount,
+            onShareClickListener = viewModel::updateCount,
+            onCommentClickListener = viewModel::updateCount,
+            onLikeClickListener = viewModel::updateCount,
         )
     }
 }
