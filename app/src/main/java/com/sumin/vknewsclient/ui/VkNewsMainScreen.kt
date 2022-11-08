@@ -10,20 +10,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.sumin.vknewsclient.navigation.AppNavGraph
-import com.sumin.vknewsclient.navigation.Screen
+import com.sumin.vknewsclient.navigation.rememberNavigationState
 
 @Composable
 internal fun MainScreen(
     viewModel: MainViewModel
 ) {
-    val navHostController = rememberNavController()
+    val navigationState = rememberNavigationState()
 
     Scaffold(
         bottomBar = {
             BottomNavigation {
-                val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+                val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
 
                 val items = listOf(
@@ -35,15 +34,7 @@ internal fun MainScreen(
                 items.forEach { item ->
                     BottomNavigationItem(
                         selected = currentRoute == item.screen.route,
-                        onClick = {
-                            navHostController.navigate(item.screen.route) {
-                                popUpTo(Screen.NewsFeed.route) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
+                        onClick = { navigationState.navigateTo(item.screen.route) },
                         icon = {
                             Icon(
                                 imageVector = item.icon,
@@ -61,7 +52,7 @@ internal fun MainScreen(
         },
     ) { paddingValues ->
         AppNavGraph(
-            navHostController = navHostController,
+            navHostController = navigationState.navHostController,
             homeScreenContent = {
                 HomeScreen(
                     viewModel = viewModel,
