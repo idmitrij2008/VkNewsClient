@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.sumin.vknewsclient.domain.FeedPost
 import com.sumin.vknewsclient.navigation.AppNavGraph
+import com.sumin.vknewsclient.navigation.Screen
 import com.sumin.vknewsclient.navigation.rememberNavigationState
 
 @Composable
@@ -53,20 +54,20 @@ internal fun MainScreen() {
     ) { paddingValues ->
         AppNavGraph(
             navHostController = navigationState.navHostController,
-            homeScreenContent = {
-                if (commentsToPost.value == null) {
-                    HomeScreen(
-                        paddingValues = paddingValues,
-                        onCommentClickListener = {
-                            commentsToPost.value = it
-                        }
-                    )
-                } else {
-                    CommentsScreen(
-                        feedPost = commentsToPost.value!!,
-                        onBackPressed = { commentsToPost.value = null }
-                    )
-                }
+            newsFeedScreenContent = {
+                HomeScreen(
+                    paddingValues = paddingValues,
+                    onCommentClickListener = {
+                        commentsToPost.value = it
+                        navigationState.navigateTo(Screen.Comments.route)
+                    }
+                )
+            },
+            commentsScreenContent = {
+                CommentsScreen(
+                    feedPost = commentsToPost.value!!,
+                    onBackPressed = { commentsToPost.value = null }
+                )
             },
             favouritesScreenContent = {
                 TextCounter(name = "Favourite")
