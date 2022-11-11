@@ -3,15 +3,12 @@ package com.sumin.vknewsclient.ui
 import com.sumin.vknewsclient.domain.FeedPost
 import com.sumin.vknewsclient.domain.PostComment
 
-sealed class HomeScreenState {
+sealed class CommentsScreenState {
 
-    object Initial : HomeScreenState()
-
-    data class Posts(val posts: List<FeedPost>) : HomeScreenState()
+    object Initial : CommentsScreenState()
 
     data class Comments(
         val feedPost: FeedPost,
         val comments: List<PostComment>
-    ) : HomeScreenState()
-
+    ) : CommentsScreenState()
 }
