@@ -21,6 +21,7 @@ import com.sumin.vknewsclient.ui.theme.VkNewsClientTheme
 internal fun CommentsScreen(
     feedPost: FeedPost,
     comments: List<PostComment>,
+    onBackPressed: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -29,11 +30,7 @@ internal fun CommentsScreen(
                     Text(text = "Comments for post id: ${feedPost.id}")
                 },
                 navigationIcon = {
-                    IconButton(
-                        onClick = {
-
-                        }
-                    ) {
+                    IconButton(onClick = { onBackPressed() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = null
