@@ -15,12 +15,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.sumin.vknewsclient.domain.FeedPost
 import com.sumin.vknewsclient.domain.PostComment
 import com.sumin.vknewsclient.ui.theme.VkNewsClientTheme
 
 @Composable
-internal fun CommentsScreen(onBackPressed: () -> Unit) {
-    val viewModel: CommentsViewModel = viewModel()
+internal fun CommentsScreen(
+    feedPost: FeedPost,
+    onBackPressed: () -> Unit,
+) {
+    val viewModel: CommentsViewModel = viewModel(
+        factory = CommentsViewModelFactory(feedPost)
+    )
 
     val screenState = viewModel.screenState.observeAsState(initial = CommentsScreenState.Initial)
 
